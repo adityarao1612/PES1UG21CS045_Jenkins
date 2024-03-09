@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './ash.sh'
+                sh './output'
             }
         }
         stage('Deploy') {
