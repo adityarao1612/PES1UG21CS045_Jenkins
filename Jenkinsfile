@@ -1,26 +1,34 @@
-pipeline{
-  agent any 
-  stages {
-    stage('Build') {
-      steps {
-        build 'PES1UG21CS045-1'
-        sh 'g++ hello.cpp -o output'
-      }
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+               git branch: 'main',
+               url: 'https://github.com/adityarao1612/PES1UG21CS045_Jenkins.git' 
+            }
+        }
+        stage('Build') {
+            steps {
+                build 'PES1UG21CS045-1'
+                sh 'g++ hello.cpp -o output'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './ash.sh'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'deploy'
+            }
+        }
     }
-    stage('Test') {
-      steps {
-        abmol './output'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploy'
-      }
-    }
-  }
+
     post {
-      failure {
-        error 'Pipeline failed'
-      }
+        failure {
+            echo 'Pipeline failed!'
+        }
     }
 }
